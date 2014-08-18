@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title>DEMO</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <script type="text/javascript" src="js/third/jquery-1.7.2.min.js"></script>
+   <script type="text/javascript" src="js/third/pngfix.js"></script>
+   <!--- IE6 png 不透明 修复 --->
+   <!--[if IE 6]><script type="text/javascript" src="third-party/pngfix.js"></script><![endif]-->
+	<!--[if IE 6]><script type="text/javascript">
+	DD_belatedPNG.fix('.ie6-png-fix');
+	</script><![endif]--> 
+ <script type="text/javascript" src="js/base.js"></script>
+  <script type="text/javascript" src="js/component/img_scroll.js"></script>
+ </head>
+
+ <body>
+  <script type="text/javascript">
+	/*
+	滚动图片组件使用方法：
+		引入相关js：jquery-1.7.2.min.js  base.js
+		引入img_scroll.js (注:引用的btn图片位于images下 如更改图片资源路径需同时修改组件样式)
+	以下为使用方式和步骤：
+	*/
+	$().ready(function(){
+		//1、传入参数并创建对象
+		var _obj = new stc.component.ImgScroll({
+			//data:数组 存储图片资源路径的数组  创建时可以不传 后采用reflushData传入
+			/*data:[{url:'images/focus/banner-1.jpg'}, 
+					  {url:'images/focus/banner-2.jpg'},
+					  {url:'images/focus/banner-3.jpg'},
+			          {url:'images/focus/banner-4.jpg'},
+			          {url:'images/focus/banner-5.jpg'}],*/
+			height:600 ,//高度
+			width:1920,//宽度
+			index:3,//默认值0 展示第一张
+			opacity:{min:0.5,max:1.0},//淡入淡出透明度设置
+			times:{slide:1500,interval:3000},//时间间隔 slide:动画移动时间默认值1000  interval:定时器间隔 默认值:6000
+			//cb_click:点击图片时执行的回掉函数 inx为图片在data中的下标
+			cb_click:function(inx){
+				alert('click'+inx);
+			}
+		});
+		
+		//刷新图片数据
+		_obj.reflushData([
+					  {url:'images/focus/banner-1.jpg'}, 
+					  {url:'images/focus/banner-2.jpg'},
+					  {url:'images/focus/banner-3.jpg'},
+			          {url:'images/focus/banner-4.jpg'},
+			          {url:'images/focus/banner-5.jpg'}]);
+
+		//2、引入页面 getRoot方法会返回组件的根元素
+		$('body').append(_obj.getRoot());
+
+		//存在问题:未对图片做严格校验 目前仅支持两张及两张以上的滚动
+
+		//注意:ie6 png透明的处理引用了pngfix.js
+	});
+  </script>
+ </body>
+</html>
