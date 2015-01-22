@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <script type="text/javascript" src="../static/third/jquery-1.7.2.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="../static/css/normalize.css"/>
+    <!--- IE6 png 不透明 修复 --->
+    <!--[if IE 6]><script type="text/javascript" src="js/third/pngfix.js"></script><![endif]-->
+    <!--[if IE 6]><script type="text/javascript">DD_belatedPNG.fix('.ie6-png-fix');</script><![endif]-->
+    <title>NaviMenu</title>
+    <link type="text/css" rel="stylesheet" href="css/navi_menu.css"/>
+    <script type="text/javascript" src="js/navi_menu.js"></script>
+    <style type="text/css">
+        .head{
+            text-align:center;
+            width:100%;
+        }
+
+        .con{
+            width: 970px;
+            margin: 0px auto;
+        }
+
+        .con .top{
+            position: relative;
+            width:100%;
+            height: 60px;
+        }
+        .con .top .menu{
+            width:660px;
+            position: absolute;
+            right: 0px;
+            height: 60px;
+        }
+
+        .con .container{
+            position: absolute;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="head">
+        <h3>简易二级菜单demo(用法见源码)</h3>
+    </div>
+
+    <div class="con">
+        <div class="top">
+            <div class="menu">
+                <div id="content"></div>
+            </div>
+        </div>
+        <div class="container">
+            <a href="http://v.youku.com/v_show/id_XODc0NDk0ODg4.html" target="_blank">
+                <img src="http://r2.ykimg.com/0510000054BCD78D6737B3555604D162" width="970" height="410" alt="12只猴子"/>
+            </a>
+        </div>
+    </div>
+
+
+<script type="text/javascript">
+    //标题配置信息
+    var NAVI_DATA = [{
+        name:'无二级菜单',
+        //ename:'INDEX',
+        target:'_self',
+        href:'http://www.youku.com/'
+    },{
+        name:'一级标题二',
+        target:'_self',
+        href:'http://www.youku.com/',
+        data:[
+            {name:'二级标题一',target:'_self',href:'http://www.youku.com/'},
+            {name:'二级标题二',target:'_blank',href:'http://www.youku.com/'}]
+    }, {
+        name:'标题无链接',
+        data:[
+            {name:'二级标题一',target:'_self',href:'http://www.youku.com/'},
+            {name:'二级标题二',target:'_self',href:'http://www.youku.com/'},
+            {name:'二级标题三',target:'_blank',href:'http://www.youku.com/'}]
+    },{
+        name:'刷新二级菜单',
+        data:[
+            {name:'原二级标题一',target:'_self',href:'http://www.youku.com/'},
+            {name:'原二级标题二',target:'_blank',href:'http://www.youku.com/'}]
+    }];
+
+    $(document).ready(function(){
+        //创建对象并出入参数
+        var _navi = new NaviMenu($('#content'),NAVI_DATA);
+
+        var data = [
+            {name:'新二级标题一',target:'_self',href:'http://www.youku.com/'},
+            {name:'新二级标题二',target:'_blank',href:'http://www.youku.com/'}]
+
+        setTimeout(function(){
+            _navi.reflushData('刷新二级菜单',data);
+        },1000);
+    });
+</script>
+</body>
+</html>

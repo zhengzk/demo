@@ -1,0 +1,13 @@
+/*reset*/
+a{color: #828282;text-decoration: none; cursor: pointer;  }
+ul,li{list-style: none;  padding: 0;  margin: 0;}
+
+#nav{display:block;height:54px;padding:0px;z-index:100;width:660px;text-align:right;}
+#nav li{position:relative;font-size:16px;height:58px;line-height:46px;color:#3E3532;background-color:transparent;width:110px;text-align:center;}
+#nav li div{height:58px;line-height:46px;cursor:pointer;}
+#nav li ul{color:#3E3532;display:none;width:110px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;padding-top:20px;font-size:12px;padding:0px;background:#67b9bc;}
+#nav li ul li{width:110px;float:none;padding:0px;height:40px;line-height:40px;font-size:12px;text-align:center;left:0px !important;color:#FFF;background:#67b9bc;}
+#nav li ul li a{display: block;background:none;float:none;border:none;line-height:30px;color:#FFF;margin:0;height:40px;line-height:40px;padding:0;font-size:14px;width:110px;left:0px !important;}
+#nav li ul li a:hover{border:none;padding:0px;width:110px;height:40px;color:#FFF;background-image:none;float:none;line-height:40px;font-size:14px;left:0px !important;background:#5ba8ac;display:block;}
+.current{display:block;background-image:url(../images/line-bg.png);background-repeat:no-repeat;background-position:bottom;color:#67b9bc;}
+.inline {  zoom: 1;  display: inline-block;  vertical-align: top;}
