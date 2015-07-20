@@ -1,0 +1,7 @@
+.ria-navi {min-width: 1000px; width: 100%; background-color: #2d4f7c; text-align: center;  line-height: 50px; }
+.ria-navi .container { margin: 0 auto; }
+.ria-navi .menu { float: left; margin: 0 10px; min-width: 60px; color: #cccccc; font-size: 16px; cursor: pointer; }
+.ria-navi .menu.current {position: relative;  color: #ffffff; cursor: default; }
+.ria-navi .menu.current:after {position: absolute; bottom: 0; left: 50%; margin-left: -5px; width: 0; height: 0; border-right: 5px solid transparent; border-bottom: 5px solid #ffffff; border-left: 5px solid transparent;  content: ''; }
+
+.ria-body { display: none; }

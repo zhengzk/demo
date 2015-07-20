@@ -1,0 +1,11 @@
+@mixin images_time_mixin($imgName:''){
+  width: 2.625rem;
+  height: 2.625rem;
+  background-image: url('../images/sprite/'+($imgName)+'.png');
+  background-repeat: no-repeat;
+}
+
+@mixin images_mixin($imgName:''){
+  background-image: url('../images/sprite/'+($imgName)+'.png');
+  background-repeat: no-repeat;
+}

@@ -1,0 +1,14 @@
+{
+  "name": "ria",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-css-sprite": "^0.2.2",
+    "grunt-csscomb": "^3.0.1",
+    "grunt-tinypng": "^0.5.3",
+    "pngsmith": "^0.1.3"
+  }
+}

@@ -1,0 +1,33 @@
+.ria-navi {
+  line-height: 50px;
+  background-color: #2d4f7c;
+  width: 100%;
+  min-width: 1000px;
+  text-align: center; }
+  .ria-navi .container {
+    margin: 0px auto; }
+  .ria-navi .menu {
+    float: left;
+    margin: 0 10px;
+    min-width: 60px;
+    font-size: 16px;
+    color: #cccccc;
+    cursor: pointer; }
+    .ria-navi .menu.current {
+      color: #ffffff;
+      cursor: default;
+      position: relative; }
+      .ria-navi .menu.current:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 0;
+        margin-left: -5px;
+        border-bottom: 5px solid #ffffff;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent; }
+
+.ria-body {
+  display: none; }
