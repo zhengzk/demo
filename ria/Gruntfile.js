@@ -11,6 +11,7 @@ module.exports = function(grunt) {
             basic:{
                 src: [
                     'js/src/basic.js',
+                    'js/src/component/**/*.js',
                     'js/src/model/**/*.js'
                 ],
                 dest: 'js/basic.js'
@@ -82,9 +83,6 @@ module.exports = function(grunt) {
         clean: {
             styles: {
                 src: ["css/*.sprite.css","css/*.concat.css"]
-            },
-            scripts:{
-                src: ["js/*.jq.js"]
             }
         },
         tinypng: {

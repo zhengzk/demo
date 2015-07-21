@@ -29,5 +29,10 @@
         border-left: 5px solid transparent;
         border-right: 5px solid transparent; }
 
-.ria-body {
-  display: none; }
+.ria-body .wrapper {
+  position: relative; }
+  .ria-body .wrapper .item {
+    width: 300px;
+    margin: 10px; }
+
+/*# sourceMappingURL=index.css.map */

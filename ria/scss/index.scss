@@ -38,5 +38,11 @@
 }
 
 .ria-body{
-  display: none;
+  .wrapper{
+    position: relative;
+    .item{
+      width: 300px;
+      margin: 10px;
+    }
+  }
 }
