@@ -1,0 +1,40 @@
+interact.Ajax = function(reqData,url,method,succ,error){
+
+    if('function' != typeof succ){
+        succ = function(){};
+    }
+
+    if('function' != typeof error){
+        error = function(){};
+    }
+    return new Ajax.Request(url, {
+        method:method,
+        asynchronous:true,
+        evalJSON:true,
+        encoding:'UTF-8',
+        parameters:reqData,
+        contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+        requestHeaders:{
+            //'X-Prototype-Version':'1.6.1',
+            'X-Requested-With':'XMLHttpRequest'
+        },
+        onSuccess: function(res) {
+            console.log('--onSuccess--');
+            console.log(arguments);
+            succ(JSON.parse(res.responseText) || res.responseText);
+        },
+        onComplete:function(){
+            console.log('-- onComplete --');
+            console.log(arguments);
+        },
+        onException:function(){
+            console.log('-- onException --');
+            console.log(arguments);
+        },
+        onFailure:function(res){
+            console.log('-- onFailure --');
+            console.log(arguments);
+            error(res.status,res.responseText);
+        }
+    });
+}

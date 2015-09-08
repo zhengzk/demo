@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title> Test parseURL of RegEx</title>
+    <script type="text/javascript">
+        //通过正则表达式来解析url
+        function parseURL(url) {
+            var res = {
+                hash: "", //从井号 (#) 开始的 URL（锚）。
+                host: "",//主机名和 URL 的端口号。
+                hostname: "",// URL 的主机名。
+                href: "",//完整的 URL
+                pathname: "",//URL 的路径部分
+                port: "",//URL 的端口号
+                protocol: "",// URL 的协议
+                search: "",//从问号 (?) 开始的 URL（查询部分）
+                username: "",
+                password: "",
+                origin: "",
+                searchParams: null
+            }
+            //protocol + // + user:password@hostname:port + pathname + search  + hash
+            var regex = /^((\w+:)\/\/)?((\w+):?(\w+)?@)?([^\/\?:]+):?(\d+)?(\/?[^\?#]+)?(\??[^#]+)?(#?\w*)/;
+            //var regex = /^((\w+):\/\/)?((\w+):?(\w+)?@)?([^\/\?:]+):?(\d+)?(\/?[^\?#]+)?\??([^#]+)?#?(\w*)/;
+            var result = regex.exec(url);
+
+            var fileds = {
+                'username': 4,
+                'password': 5,
+                'port': 7,
+                'protocol': 2,
+                'hostname': 6,
+                'pathname': 8,
+                'href': 0,
+                'search': 9,
+                'hash': 10
+            };
+            for (var k in fileds) {
+                res[k] = result[fileds[k]] || res[k];
+            }
+            //补全属性
+            res.host = res.hostname;
+            if (res["port"]) {
+                res.host += ":" + res["port"]
+            }
+            res.origin = res.protocol + "//" + res.host;
+            return res;
+        }
+
+
+        var test = function (urls) {
+            for (var k = 0, len = urls.length; k < len; k++) {
+                var res = parseUrl(urls[k]);
+                if (console) {
+                    console.log(res);
+                }
+
+                for (var j in res) {
+                    document.write(j + ':' + res[j] + '\n');
+                }
+                document.write('--------------------------------------------------\n');
+            }
+        }
+
+        var urls = [
+            'https://www.youku.com',
+            'http://zhengzk:123456@youku.com:1234\aa\bb\cc?a=1&b=2#qqq',
+            'http://v.youku.com/v_show/id_XNzE3NzIxMTky.html?from=y1.3-idx-uhome-1519-20887.205805-205902.6-4',
+            'http://user:password@www.yoku.com:1234/test/test.asp?id=1#test'
+        ];
+
+        test(urls);
+
+    </script>
+</head>
+
+<body>
+
+</body>
+</html>

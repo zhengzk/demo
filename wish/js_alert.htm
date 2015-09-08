@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0043)http://jsdashi.com/demo/alert/dragalert.htm
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>
+            JS弹出框
+        </title>
+        <style type="text/css">
+            html { background: #F6F6F1 url("http://jsdashi.com/demo/demoImg/bg-html.png")
+            0 0 repeat; } * { padding: 0; margin: 0; } body { height: 100%; } .alertBox
+            h2 { margin: 3px; height: 25px; line-height: 25px; padding-left: 10px;
+            font-size: 14px; color: #333; background: url(images/title_bg.gif) repeat-x;
+            border: 1px solid #AAA; cursor: move; position: relative; } .close { color:
+            #999; text-decoration: none; position: absolute; right: 10px; top: 0px;
+            z-index: 10; } .main { padding: 10px; overflow: auto; } .main p { font-size:
+            12px; line-height: 18px; color: #666; text-indent: 24px; padding-bottom:
+            10px; font-family: arial; } #drag { position: absolute; bottom: 0; right:
+            0; width: 14px; height: 14px; cursor: nw-resize; z-index: 10; background:
+            url(images/drag_ico.gif) 0 0 no-repeat; } #emptyDiv { cursor: move; } .close:hover
+            { color: #000; } #btn { font-size: 14px; padding: 0; background: #DDD url('http://jsdashi.com/demo/demoImg/btn.png');
+            border: 0; cursor: pointer; width: 95px; height: 32px; margin-top: 300px;
+            }
+        </style>
+    </head>
+    
+    <body style="height: 2000px;" youdao="bind">
+        <input type="button" value="确定" id="btn">
+        <div id="alertBox" class="alertBox" style="display: none; width: 300px; overflow: hidden; position: absolute; z-index: 10001; left: 801.5px; height: 0px; top: 477.5px; background: rgb(242, 242, 242);">
+            <h2 id="tit">
+                <strong title="前端开发-www.jsdashi.com">
+                    前端开发
+                </strong>
+                <a id="close" class="close" href="http://jsdashi.com/demo/alert/dragalert.htm#"
+                title="关闭当前窗口">
+                    ×
+                </a>
+            </h2>
+            <div id="wrap" class="main">
+                <p>
+                    JS弹出框效果是一个非常实用的效果，在网上有很多的弹出框的例子，对于菜鸟来说往往都是一顿copy，发现有问题的时候然后一顿改，突然发现兼容了，
+                    就提交上去了，往往愿意深究的地方很少。其实弹出框是一个非常值得练手的例子，里面有许多兼容的东西值得学习。
+                </p>
+            </div>
+            <div id="drag">
+            </div>
+        </div>
+        <script type="text/javascript">
+        /**
+        声明类型
+        *@param {String} name          类名
+        *@param {Object} base          基类(需要继承的父类)
+        *@param {Object} members       非静态成员(javascript键值对)
+        *@param {Object} staticMembers 静态成员(javascript键值对)        
+        */
+            var Class = function(name, base, members, staticMembers) {
+                var klass = eval('(function(){ return function(){ this.' + name + '.apply(this, arguments);}})()');
+                var prototype = klass.prototype;
+                if (base) {
+                    extend(prototype, base.prototype);
+                }
+                extend(prototype, members);
+                extend(klass, staticMembers);
+                function extend(obj, exed) {
+                    for (var i in exed) {
+                        obj[i] = exed[i];
+                    }
+                    return obj
+                }
+                window[name] = klass;
+                if (klass[name]) klass[name]();
+                return klass;
+            };
+            var $ = function(o) {
+                return typeof o == 'object' ? o: document.getElementById(o);
+            };
+
+            //拖拽类
+            Class('Drag', null, {
+                Drag: function(oElement, fnGetPos, fnOnDrag) {
+                    var self = this;
+                    this.oElement = oElement;
+                    this.fnGetPos = fnGetPos;
+                    this.fnOnDrag = fnOnDrag;
+                    this.__oStartOffset__ = {
+                        x: 0,
+                        y: 0
+                    };
+                    var ev = '';
+                    this.fnOnMouseUp = function(ev) {
+                        ev = window.event || ev;
+                        self.stopDrag(ev);
+                    };
+                    this.fnOnMouseMove = function(ev) {
+                        ev = window.event || ev;
+                        self.doDrag(ev);
+                    };
+                    if (!this.oElement.init) {
+                        this.oElement.onmousedown = function(ev) {
+                            ev = window.event || ev;
+                            self.startDrag(ev);
+                            return false;
+                        };
+                    } else {
+                        self.startDrag(this.oElement.init);
+                    }
+                },
+                startDrag: function(e) {
+                    var oPos = this.fnGetPos();
+                    var x = e.clientX;
+                    var y = e.clientY;
+                    this.__oStartOffset__.x = x - oPos.x;
+                    this.__oStartOffset__.y = y - oPos.y;
+                    if (this.oElement.setCapture) {
+                        this.oElement.setCapture();
+                        this.oElement.onmouseup = this.fnOnMouseUp;
+                        this.oElement.onmousemove = this.fnOnMouseMove;
+                    } else {
+                        document.addEventListener("mouseup", this.fnOnMouseUp, true);
+                        document.addEventListener("mousemove", this.fnOnMouseMove, true);
+                        window.captureEvents(Event.MOUSEMOVE | Event.MOUSEUP);
+                    }
+
+                },
+                stopDrag: function(e) {
+                    if (this.oElement.releaseCapture) {
+                        this.oElement.releaseCapture();
+                        this.oElement.onmouseup = null;
+                        this.oElement.onmousemove = null;
+                    } else {
+                        document.removeEventListener("mouseup", this.fnOnMouseUp, true);
+                        document.removeEventListener("mousemove", this.fnOnMouseMove, true);
+                        window.releaseEvents(Event.MOUSE_MOVE | Event.MOUSE_UP);
+                    }
+                    this.oElement.callback && this.oElement.callback();
+                },
+                doDrag: function(e) {
+                    var x = e.clientX;
+                    var y = e.clientY;
+                    this.fnOnDrag(x - this.__oStartOffset__.x, y - this.__oStartOffset__.y);
+                }
+            },
+            {});
+            // 弹出类
+            Class('Alert', null, {
+                Alert: function() {
+                    this.size = {
+                        width: 0,
+                        height: 0
+                    };
+                    this.bindEvent();
+                },
+                bindEvent: function() {
+                    var self = this;
+                    $('btn').onclick = function() {
+                        self.creatAlert()
+                    };
+                    var isEvent = false;
+                    $("close").onmousedown = function() {
+                        isEvent = true;
+                        self.closeAlert();
+                        return false;
+                    }
+                    window.onresize = function() {
+                        //窗口发生改变，触发onResize函数 调整弹出框
+                        self.onResize();
+                    };
+                    var obj = $('alertBox');
+                    $('tit').onmousedown = function(e) {
+                        if (isEvent) {
+                            return isEvent = false
+                        }
+                        var e = window.event || e;
+                        var oEmpty = document.createElement("div");
+                        oEmpty.setAttribute("id", "Empty"); //创建空div 
+                        with(oEmpty.style) {
+                            position = 'absolute';
+                            zIndex = obj.style.zIndex + 1;
+                            left = obj.offsetLeft + "px";
+                            top = obj.offsetTop + "px";
+                            width = obj.offsetWidth + "px";
+                            height = obj.offsetHeight + "px";
+                            background = '#888';
+                            filter = 'Alpha(opacity=50)';
+                            opacity = '0.5';
+                            border = "1px #000 solid";
+                            overflow = "hidden";
+                        }
+                        document.body.appendChild(oEmpty);
+                        oEmpty.init = e;
+                        var empty = new Drag(oEmpty,
+                        function() {
+                            return {
+                                x: oEmpty.offsetLeft,
+                                y: oEmpty.offsetTop
+                            };
+                        },
+                        function(x, y) {
+                            var w = document.documentElement.clientWidth || document.body.clientWidth;
+                            var h = document.documentElement.clientHeight || document.body.clientHeight;
+                            var iSTop = document.body.scrollTop || document.documentElement.scrollTop;
+
+                            if (x < 0) {
+                                x = 0;
+                            } else if (x + oEmpty.offsetWidth > w) {
+                                x = w - oEmpty.offsetWidth;
+                            }
+
+                            if (y < iSTop) {
+                                y = iSTop;
+                            } else if (y + oEmpty.offsetHeight > h + iSTop) {
+                                y = h - oEmpty.offsetHeight + iSTop;
+                            }
+                            oEmpty.style.left = x + "px";
+                            oEmpty.style.top = y + "px";
+                        });
+                        oEmpty.callback = function() {
+                            if (document.getElementById('Empty')) {
+                                obj.style.left = oEmpty.offsetLeft + "px";
+                                obj.style.top = oEmpty.offsetTop + "px";
+                                document.body.removeChild(document.getElementById('Empty')); //删除节点
+                            }
+                        }
+                        return false;
+                    };
+                    var drag = new Drag($('drag'),
+                    function() {
+                        return {
+                            x: obj.offsetWidth,
+                            y: obj.offsetHeight
+                        };
+                    },
+                    function(x, y) {
+                        if (x < 110) {
+                            x = 110;
+                        }
+                        obj.style.width = x + 'px';
+                        if (y < 32) {
+                            y = 32;
+                        }
+                        obj.style.height = y + 'px';
+                    });
+                },
+                creatAlert: function() {
+                    var self = this;
+                    var oBg = document.createElement("div");
+                    oBg.setAttribute("id", "bg"); //创建透明背景层(bg) 
+                    with(oBg.style) {
+                        position = 'absolute';
+                        zIndex = '10000';
+                        left = '0';
+                        top = '0';
+                        background = '#000000';
+                        filter = 'Alpha(opacity=50)';
+                        opacity = '0.5';
+                    }
+                    document.body.appendChild(oBg);
+                    oBg.onclick = function() {
+                        self.closeAlert()
+                    };
+                    var obj = $('alertBox');
+                    obj.style.display = "block";
+                    this.startMove(obj, 300);
+                    with(obj.style) { // 设置 弹出框一些基本属性
+                        position = 'absolute';
+                        zIndex = '10001';
+                        left = "50%";
+                    }
+                },
+                onResize: function() {
+                    var oBg = $('bg');
+                    var obj = $('alertBox');
+                    this.size.width = Math.max(document.documentElement.scrollWidth, document.documentElement.clientWidth || document.body.clientWidth);
+                    this.size.height = Math.max(document.documentElement.scrollHeight, document.documentElement.clientHeight || document.body.clientHeight);
+                    //获取页面高度 和 宽度 最大值
+                    if (!oBg) return;
+                    oBg.style.width = this.size.width + "px";
+                    oBg.style.height = this.size.height + "px";
+                    with(obj.style) { //调整弹出框位置
+                        left = (parseInt(document.documentElement.clientWidth || document.body.clientWidth)) / 2 + (document.documentElement.scrollLeft || document.body.scrollLeft) - obj.offsetWidth / 2 + "px";;
+                        top = (parseInt(document.documentElement.clientHeight || document.body.clientHeight)) / 2 + (document.documentElement.scrollTop || document.body.scrollTop) - obj.offsetHeight / 2 + "px";
+                    }
+                },
+                closeAlert: function() {
+                    this.startMove($('alertBox'), 0);
+                },
+                startMove: function(obj, iTarget) { //运动
+                    if (obj.t) {
+                        clearInterval(obj.t);
+                        obj.t = null;
+                    }
+                    var self = this;
+                    obj.t = setInterval(function() {
+                        self.doMove(obj, iTarget)
+                    },
+                    30);
+                },
+                doMove: function(obj, iTarget) {
+                    obj.iSpeed = (iTarget - obj.offsetHeight) / 5;
+                    obj.iSpeed = obj.iSpeed > 0 ? Math.ceil(obj.iSpeed) : Math.floor(obj.iSpeed); //速度取整
+                    if (obj.offsetHeight == iTarget) { // 目标点结束
+                        if (obj.t) {
+                            clearInterval(obj.t);
+                            obj.t = null;
+                            if (iTarget == 0) {
+                                obj.style.display = "none";
+                                obj.style.width = "300px";
+                                document.body.removeChild(document.getElementById("bg")); //删除节点
+                            }
+                        }
+                    } else {
+                        obj.style.height = obj.offsetHeight + obj.iSpeed + "px";
+                    }
+                    this.onResize(); //调整弹出框位置
+                }
+            },{});
+            var a = new Alert;
+        </script>
+    </body>
+</html>
