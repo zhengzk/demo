@@ -34,9 +34,9 @@ function parseURL(url) {
             return obj1;
         }
         for (var key in obj1) {
-            if (hasOwnProp.call(obj2, key)) {
-                obj1[key] = obj2[key];
-            }
+             if(hasOwnProp.call(obj1,key) && "undefined" != typeof obj2[key]){
+                  obj1[key] = obj2[key];
+             }
         }
         return obj1;
     }
